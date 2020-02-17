@@ -46,18 +46,18 @@ columns, so the output looks better.
 import random
 import sys
 
-__author__ = "???"
+__author__ = "chewh115"
 
 
 def create_mimic_dict(filename):
-    """Returns mimic dict mapping each word to list of words which follow it. 
+    """Returns mimic dict mapping each word to list of words which follow it.
     For example:
         Input: "I am a software developer, and I don't care who knows"
-        Output: 
+        Output:
             {
                 "" : ["I"],
-                "I" : ["am", "don't"], 
-                "am": ["a"], 
+                "I" : ["am", "don't"],
+                "am": ["a"],
                 "a": ["software"],
                 "software" : ["developer,"],
                 "developer," : ["and"],
@@ -68,24 +68,39 @@ def create_mimic_dict(filename):
                 "who" : ["knows"]
             }
     """
-    # +++your code here+++
-    
+    with open(filename, 'r') as f:
+        mimic_dict = {}
+        text = f.read()
+        text = text.split()
+        prev_word = ''
+        for word in text:
+            if prev_word in mimic_dict:
+                mimic_dict[prev_word].append(word)
+            else:
+                mimic_dict[prev_word] = [word]
+            prev_word = word
+    return mimic_dict
+
 
 def print_mimic(mimic_dict, start_word):
-    """Given a previously compiled mimic_dict and start_word, prints 200 random words:
+    """Given a previously compiled mimic_dict and start_word, prints 200
+    random words:
         - Print the start_word
         - Lookup the start_word in your mimic_dict and get it's next-list
         - Randomly select a new word from the next-list
         - Repeat this process 200 times
     """
-    # +++your code here+++
-    pass
+    new_text = []
+    for i in range(200):
+        start_word = random.choice(mimic_dict.get(start_word))
+        new_text.append(start_word)
+    print(' '.join(new_text))
 
 
 # Provided main(), calls mimic_dict() and mimic()
 def main():
     if len(sys.argv) != 2:
-        print 'usage: python mimic.py file-to-read'
+        print('usage: python mimic.py file-to-read')
         sys.exit(1)
 
     d = create_mimic_dict(sys.argv[1])
