@@ -90,8 +90,11 @@ def print_mimic(mimic_dict, start_word):
         - Randomly select a new word from the next-list
         - Repeat this process 200 times
     """
-    # +++your code here+++
-    pass
+    new_text = []
+    for i in range(200):
+        start_word = random.choice(mimic_dict.get(start_word))
+        new_text.append(start_word)
+    print(' '.join(new_text))
 
 
 # Provided main(), calls mimic_dict() and mimic()
